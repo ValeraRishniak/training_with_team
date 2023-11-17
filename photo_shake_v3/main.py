@@ -24,7 +24,7 @@ def read_root():
     """
     The read_root function returns a dictionary with the key &quot;message&quot; and value WELCOMES_MESSAGE.
         This is used to display a welcome message when the user visits the root of our API.
-    
+
     :return: A dictionary
     """
     return {"message": WELCOME_MESSAGE}
@@ -35,16 +35,16 @@ async def startup():
     """
     The startup function is called when the application starts up.
     It's a good place to initialize things that are used by the app, like caches or databases.
-    
+
     :return: A coroutine, so we need to wrap it in asyncio
     """
     redis_cache = await redis.Redis(
         host=settings.redis_host,
         port=settings.redis_port,
-        password=settings.redis_password,
+        # password=settings.redis_password,
         db=0,
         encoding="utf-8",
-        decode_responses=True
+        decode_responses=True,
     )
     await FastAPILimiter.init(redis_cache)
 
@@ -54,7 +54,7 @@ def healthchecker(db: Session = Depends(get_db)):
     """
     The healthchecker function is used to check the health of the database.
     It returns a welcome message if it can connect to the database, and an error message otherwise.
-    
+
     :param db: Session: Pass the database session to the function
     :return: A dict with a message
     """
@@ -68,14 +68,14 @@ def healthchecker(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=DB_CONNECT_ERROR)
 
 
-app.include_router(auth_router, prefix='/api')
-app.include_router(users_router, prefix='/api')
-app.include_router(foto_router, prefix='/api')
-app.include_router(trans_router, prefix='/api')
-app.include_router(tag_router, prefix='/api')
-app.include_router(comment_router, prefix='/api')
-app.include_router(rating_router, prefix='/api')
+app.include_router(auth_router, prefix="/api")
+app.include_router(users_router, prefix="/api")
+app.include_router(foto_router, prefix="/api")
+app.include_router(trans_router, prefix="/api")
+app.include_router(tag_router, prefix="/api")
+app.include_router(comment_router, prefix="/api")
+app.include_router(rating_router, prefix="/api")
 
 
-if __name__ == '__main__':
-    uvicorn.run(app='main:app', host='localhost', port=8000, reload=True)
+if __name__ == "__main__":
+    uvicorn.run(app="main:app", host="localhost", port=8000, reload=True)
