@@ -42,7 +42,7 @@ async def create_foto(
     # public_id = Faker().first_name() # треба списати цей параметр
     # public_id = f'{current_user}'
 
-    photo_number = 19
+    photo_number = 1
 
     db_photo = (
         db.query(Foto)
